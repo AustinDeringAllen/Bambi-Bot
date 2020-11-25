@@ -55,6 +55,7 @@ public class Bambi {
                     }
                 });
 
+
         client.getEventDispatcher().on(MessageCreateEvent.class)
                 .subscribe(event -> {
                     Message message = event.getMessage();
