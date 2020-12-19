@@ -55,6 +55,15 @@ public class Bambi {
                     }
                 });
 
+        client.getEventDispatcher().on(MessageCreateEvent.class)
+                .subscribe(event -> {
+                    Message message = event.getMessage();
+                    if(message.getContent().equalsIgnoreCase("!me")) {
+                        MessageChannel channel = message.getChannel().block();
+                        channel.createMessage(message.getAuthor().map(User::getUsername).get()).block();
+
+                });
+
 
         client.getEventDispatcher().on(MessageCreateEvent.class)
                 .subscribe(event -> {
