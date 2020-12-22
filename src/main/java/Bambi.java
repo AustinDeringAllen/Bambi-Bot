@@ -4,9 +4,12 @@ import discord4j.core.event.domain.lifecycle.ReadyEvent;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.event.domain.message.MessageUpdateEvent;
 import discord4j.core.event.domain.message.ReactionAddEvent;
+import discord4j.core.object.VoiceState;
+import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.User;
 import discord4j.core.object.entity.channel.MessageChannel;
+import discord4j.core.object.entity.channel.VoiceChannel;
 import discord4j.core.object.reaction.Reaction;
 import discord4j.core.object.reaction.ReactionEmoji;
 import reactor.core.publisher.Mono;
@@ -123,9 +126,17 @@ public class Bambi {
                 .subscribe(event -> {
                     Message message = event.getMessage();
                     if(message.getContent().equalsIgnoreCase("!join")) {
-
+                        Member member = event.getMember().orElse(null);
+                        if(member != null) {
+                            VoiceState voiceState = member.getVoiceState().block();
+                            if(voiceState != null) {
+                                VoiceChannel channel = voiceState.getChannel().block();
+                                if(channel != null) {
+                                    channel.join(spec -> spec.setProvider(provider)).block();
+                                }
+                            }
+                        }
                     }
-                }
                 });
 
         client.getEventDispatcher().on(MessageUpdateEvent.class)
