@@ -119,6 +119,12 @@ public class Bambi {
                     }
                 });
 
+        client.getEventDispatcher().on(MessageCreateEvent.class)
+                .subscribe(event -> {
+
+                }
+                });
+
         client.getEventDispatcher().on(MessageUpdateEvent.class)
                 .subscribe(event -> {
                     Mono<Message> message =  event.getMessage();
