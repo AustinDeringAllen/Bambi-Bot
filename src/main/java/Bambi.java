@@ -75,6 +75,10 @@ public class Bambi {
                             channel.createMessage("click. " + username + " lives to see another day.").block();
                             channel.createMessage(bullets + " remain.").block();
                         }
+                        if (bullets == 1) {
+                            channel.createMessage("One bullet left. Reloading~").block();
+                            bullets = 6;
+                        }
                     }
                 });
 
