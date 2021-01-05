@@ -67,6 +67,14 @@ public class Bambi {
                         bullets--;
                         MessageChannel channel = message.getChannel().block();
                         String username = message.getAuthor().map(User::getUsername).get();
+                        if(randNum == 1) {
+                            channel.createMessage("Bang! " + username + " is dead.").block();
+                            channel.createMessage("Reloading ~ 6 bullets remain").block();
+                            bullets = 6;
+                        } else {
+                            channel.createMessage("click. " + username + " lives to see another day.").block();
+                            channel.createMessage(bullets + " remain.").block();
+                        }
                     }
                 });
 
