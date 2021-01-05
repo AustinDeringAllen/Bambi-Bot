@@ -15,11 +15,13 @@ import discord4j.core.object.reaction.ReactionEmoji;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Set;
 
 public class Bambi {
     public final String operator = "$";
     public static final ArrayList<String> strings = new ArrayList<>();
+    public static int bullets = 6;
 
     public static void main(String[] args) {
         GatewayDiscordClient client = DiscordClientBuilder.create(DiscordKey.getKey())
@@ -50,6 +52,23 @@ public class Bambi {
                 .subscribe();
 
         client.getEventDispatcher().on(MessageCreateEvent.class)
+                .map(MessageCreateEvent::getMessage)
+                .filter(message -> message.getAuthor().map(user -> !user.isBot()).orElse(false))
+                .filter(message -> message.getContent().equalsIgnoreCase("!rrr"))
+                .flatMap(Message::getChannel)
+                .subscribe();
+
+        client.getEventDispatcher().on(MessageCreateEvent.class)
+                .subscribe(event -> {
+                    Message message = event.getMessage();
+                    if(message.getContent().equalsIgnoreCase("!rr")) {
+                        Random random = new Random();
+                        int randNum = random.nextInt(bullets)+1;
+                        bullets--;
+                    }
+                });
+
+        client.getEventDispatcher().on(MessageCreateEvent.class)
                 .subscribe(event -> {
                     Message message = event.getMessage();
                     if(message.getContent().equalsIgnoreCase("$me")) {
@@ -76,14 +95,14 @@ public class Bambi {
                     }
                 });
 
-        client.getEventDispatcher().on(MessageCreateEvent.class)
-                .subscribe(event -> {
-                    Message message = event.getMessage();
-                    if(message.getContent().equalsIgnoreCase("!me")) {
-                        MessageChannel channel = message.getChannel().block();
-                        channel.createMessage(message.getAuthor().map(User::getUsername).get()).block();
-
-                });
+//        client.getEventDispatcher().on(MessageCreateEvent.class)
+//                .subscribe(event -> {
+//                    Message message = event.getMessage();
+//                    if(message.getContent().equalsIgnoreCase("!me")) {
+//                        MessageChannel channel = message.getChannel().block();
+//                        channel.createMessage(message.getAuthor().map(User::getUsername).get()).block();
+//
+//                });
 
 
         client.getEventDispatcher().on(MessageCreateEvent.class)
@@ -122,22 +141,22 @@ public class Bambi {
                     }
                 });
 
-        client.getEventDispatcher().on(MessageCreateEvent.class)
-                .subscribe(event -> {
-                    Message message = event.getMessage();
-                    if(message.getContent().equalsIgnoreCase("!join")) {
-                        Member member = event.getMember().orElse(null);
-                        if(member != null) {
-                            VoiceState voiceState = member.getVoiceState().block();
-                            if(voiceState != null) {
-                                VoiceChannel channel = voiceState.getChannel().block();
-                                if(channel != null) {
-                                    channel.join(spec -> spec.setProvider(provider)).block();
-                                }
-                            }
-                        }
-                    }
-                });
+//        client.getEventDispatcher().on(MessageCreateEvent.class)
+//                .subscribe(event -> {
+//                    Message message = event.getMessage();
+//                    if(message.getContent().equalsIgnoreCase("!join")) {
+//                        Member member = event.getMember().orElse(null);
+//                        if(member != null) {
+//                            VoiceState voiceState = member.getVoiceState().block();
+//                            if(voiceState != null) {
+//                                VoiceChannel channel = voiceState.getChannel().block();
+//                                if(channel != null) {
+//                                    channel.join(spec -> spec.setProvider(provider)).block();
+//                                }
+//                            }
+//                        }
+//                    }
+//                });
 
         client.getEventDispatcher().on(MessageUpdateEvent.class)
                 .subscribe(event -> {
