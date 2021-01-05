@@ -65,6 +65,8 @@ public class Bambi {
                         Random random = new Random();
                         int randNum = random.nextInt(bullets)+1;
                         bullets--;
+                        MessageChannel channel = message.getChannel().block();
+                        String username = message.getAuthor().map(User::getUsername).get();
                     }
                 });
 
