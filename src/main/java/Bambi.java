@@ -98,6 +98,8 @@ public class Bambi {
                        String username = message.getAuthor().map(User::getUsername).get();
                        if(currency.containsKey(username)) {
                            channel.createMessage(username + " has " + currency.get(username) + " money");
+                       } else {
+                           channel.createMessage(username + " doesn't exist within our database");
                        }
                    }
                 });
