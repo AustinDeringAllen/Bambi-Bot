@@ -14,14 +14,13 @@ import discord4j.core.object.reaction.Reaction;
 import discord4j.core.object.reaction.ReactionEmoji;
 import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public class Bambi {
     public final String operator = "$";
     public static final ArrayList<String> strings = new ArrayList<>();
     public static int bullets = 6;
+    public static final HashMap<String, Long> currency = new HashMap<>();
 
     public static void main(String[] args) {
         GatewayDiscordClient client = DiscordClientBuilder.create(DiscordKey.getKey())
@@ -80,6 +79,14 @@ public class Bambi {
                             bullets = 6;
                         }
                     }
+                });
+
+        client.getEventDispatcher().on(MessageCreateEvent.class)
+                .subscribe(event -> {
+                   Message message = event.getMessage();
+                   if(message.getContent().equalsIgnoreCase("!register")) {
+
+                   }
                 });
 
         client.getEventDispatcher().on(MessageCreateEvent.class)
