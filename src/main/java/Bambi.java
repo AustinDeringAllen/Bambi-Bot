@@ -85,7 +85,8 @@ public class Bambi {
                 .subscribe(event -> {
                    Message message = event.getMessage();
                    if(message.getContent().equalsIgnoreCase("!register")) {
-
+                       String username = message.getAuthor().map(User::getUsername).get();
+                       currency.put(username, 1000L);
                    }
                 });
 
