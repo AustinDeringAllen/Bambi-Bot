@@ -93,8 +93,12 @@ public class Bambi {
         client.getEventDispatcher().on(MessageCreateEvent.class)
                 .subscribe(event -> {
                    Message message = event.getMessage();
+                   MessageChannel channel = message.getChannel().block();
                    if(message.getContent().equalsIgnoreCase("!currency")) {
-
+                       String username = message.getAuthor().map(User::getUsername).get();
+                       if(currency.containsKey(username)) {
+                           channel.createMessage(username + " has " + currency.get(username) + " money");
+                       }
                    }
                 });
 
