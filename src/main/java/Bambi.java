@@ -45,14 +45,6 @@ public class Bambi {
         client.getEventDispatcher().on(MessageCreateEvent.class)
                 .map(MessageCreateEvent::getMessage)
                 .filter(message -> message.getAuthor().map(user -> !user.isBot()).orElse(false))
-                .filter(message -> message.getContent().equalsIgnoreCase("$Ching"))
-                .flatMap(Message::getChannel)
-                .flatMap(channel -> channel.createMessage("Chong!"))
-                .subscribe();
-
-        client.getEventDispatcher().on(MessageCreateEvent.class)
-                .map(MessageCreateEvent::getMessage)
-                .filter(message -> message.getAuthor().map(user -> !user.isBot()).orElse(false))
                 .filter(message -> message.getContent().equalsIgnoreCase("!rrr"))
                 .flatMap(Message::getChannel)
                 .subscribe();
@@ -111,8 +103,9 @@ public class Bambi {
                     Message message = event.getMessage();
                     if(message.getContent().contains("!pay")) {
                         String[] userInput = message.toString().split(" ");
+                        String username = message.getAuthor().map(User::getUsername).get();a
                     }
-                })
+                });
 
         client.getEventDispatcher().on(MessageCreateEvent.class)
                 .subscribe(event -> {
