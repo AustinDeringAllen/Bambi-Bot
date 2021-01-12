@@ -8,7 +8,7 @@ public class TestCommands {
         client.getEventDispatcher().on(MessageCreateEvent.class)
                 .map(MessageCreateEvent::getMessage)
                 .filter(message -> message.getAuthor().map(user -> !user.isBot()).orElse(false))
-                .filter(message -> message.getContent().equalsIgnoreCase("$ping"))
+                .filter(message -> message.getContent().equalsIgnoreCase(operator + "ping"))
                 .flatMap(Message::getChannel)
                 .flatMap(channel -> channel.createMessage("Pong!"))
                 .subscribe();

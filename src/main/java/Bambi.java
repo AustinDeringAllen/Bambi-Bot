@@ -17,7 +17,7 @@ import reactor.core.publisher.Mono;
 import java.util.*;
 
 public class Bambi {
-    public final String operator = "$";
+    public static final String operator = "$";
     public static final ArrayList<String> strings = new ArrayList<>();
     public static int bullets = 6;
     public static final HashMap<String, Long> currency = new HashMap<>();
@@ -34,7 +34,7 @@ public class Bambi {
                     System.out.println(String.format("Logged in as %s#%s", self.getUsername(), self.getDiscriminator()));
                 });
 
-        TestCommands.checkCommands(client);
+        TestCommands.checkCommands(client, operator);
 
         client.getEventDispatcher().on(MessageCreateEvent.class)
                 .map(MessageCreateEvent::getMessage)
