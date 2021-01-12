@@ -34,13 +34,7 @@ public class Bambi {
                     System.out.println(String.format("Logged in as %s#%s", self.getUsername(), self.getDiscriminator()));
                 });
 
-        client.getEventDispatcher().on(MessageCreateEvent.class)
-                .map(MessageCreateEvent::getMessage)
-                .filter(message -> message.getAuthor().map(user -> !user.isBot()).orElse(false))
-                .filter(message -> message.getContent().equalsIgnoreCase("$ping"))
-                .flatMap(Message::getChannel)
-                .flatMap(channel -> channel.createMessage("Pong!"))
-                .subscribe();
+        TestCommands.checkCommands(client);
 
         client.getEventDispatcher().on(MessageCreateEvent.class)
                 .map(MessageCreateEvent::getMessage)
@@ -103,7 +97,7 @@ public class Bambi {
                     Message message = event.getMessage();
                     if(message.getContent().contains("!pay")) {
                         String[] userInput = message.toString().split(" ");
-                        String username = message.getAuthor().map(User::getUsername).get();a
+                        String username = message.getAuthor().map(User::getUsername).get();
                     }
                 });
 
