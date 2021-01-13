@@ -35,6 +35,7 @@ public class Bambi {
                 });
 
         TestCommands.checkCommands(client, operator);
+        OtherCommands.ListenForCommands();
 
         client.getEventDispatcher().on(MessageCreateEvent.class)
                 .map(MessageCreateEvent::getMessage)
