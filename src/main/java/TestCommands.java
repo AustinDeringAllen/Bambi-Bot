@@ -4,7 +4,7 @@ import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
 
 public class TestCommands {
-    public static void checkCommands(GatewayDiscordClient client, String operator) {
+    public static void ListenForCommands(GatewayDiscordClient client, String operator) {
         client.getEventDispatcher().on(MessageCreateEvent.class)
                 .map(MessageCreateEvent::getMessage)
                 .filter(message -> message.getAuthor().map(user -> !user.isBot()).orElse(false))
