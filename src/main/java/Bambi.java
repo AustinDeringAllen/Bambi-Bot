@@ -35,7 +35,7 @@ public class Bambi {
                 });
 
         TestCommands.checkCommands(client, operator);
-        OtherCommands.ListenForCommands();
+        OtherCommands.ListenForCommands(client, operator);
 
         client.getEventDispatcher().on(MessageCreateEvent.class)
                 .map(MessageCreateEvent::getMessage)
@@ -43,40 +43,6 @@ public class Bambi {
                 .filter(message -> message.getContent().equalsIgnoreCase("!rrr"))
                 .flatMap(Message::getChannel)
                 .subscribe();
-
-        client.getEventDispatcher().on(MessageCreateEvent.class)
-                .subscribe(event -> {
-                    Message message = event.getMessage();
-                    if(message.getContent().equalsIgnoreCase("!rr")) {
-                        Random random = new Random();
-                        int randNum = random.nextInt(bullets)+1;
-                        bullets--;
-                        MessageChannel channel = message.getChannel().block();
-                        String username = message.getAuthor().map(User::getUsername).get();
-                        if(randNum == 1) {
-                            channel.createMessage("Bang! " + username + " is dead.").block();
-                            channel.createMessage("Reloading ~ 6 bullets remain").block();
-                            bullets = 6;
-                        } else {
-                            channel.createMessage("click. " + username + " lives to see another day.").block();
-                            channel.createMessage(bullets + " remain.").block();
-                        }
-                        if (bullets == 1) {
-                            channel.createMessage("One bullet left. Reloading~").block();
-                            bullets = 6;
-                        }
-                    }
-                });
-
-        client.getEventDispatcher().on(MessageCreateEvent.class)
-                .subscribe(event -> {
-                   Message message = event.getMessage();
-                   if(message.getContent().equalsIgnoreCase("!register")) {
-                       String username = message.getAuthor().map(User::getUsername).get();
-                       if(!currency.containsKey(username))
-                           currency.put(username, 1000L);
-                   }
-                });
 
         client.getEventDispatcher().on(MessageCreateEvent.class)
                 .subscribe(event -> {
