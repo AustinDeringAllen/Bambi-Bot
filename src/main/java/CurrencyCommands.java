@@ -20,5 +20,19 @@ public class CurrencyCommands {
                             currency.put(username, 1000L);
                     }
                 });
+
+        client.getEventDispatcher().on(MessageCreateEvent.class)
+                .subscribe(event -> {
+                    Message message = event.getMessage();
+                    MessageChannel channel = message.getChannel().block();
+                    if(message.getContent().equalsIgnoreCase("!currency")) {
+                        String username = message.getAuthor().map(User::getUsername).get();
+                        if(currency.containsKey(username)) {
+                            channel.createMessage(username + " has " + currency.get(username) + " money");
+                        } else {
+                            channel.createMessage(username + " doesn't exist within our database");
+                        }
+                    }
+                });
     }
 }
