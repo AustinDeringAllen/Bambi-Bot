@@ -18,7 +18,6 @@ import java.util.*;
 
 public class Bambi {
     public static final String operator = "$";
-    public static final ArrayList<String> strings = new ArrayList<>();
     public static int bullets = 6;
     public static final HashMap<String, Long> currency = new HashMap<>();
 
@@ -34,8 +33,9 @@ public class Bambi {
                     System.out.println(String.format("Logged in as %s#%s", self.getUsername(), self.getDiscriminator()));
                 });
 
-        TestCommands.checkCommands(client, operator);
+        TestCommands.ListenForCommands(client, operator);
         OtherCommands.ListenForCommands(client, operator);
+        MovieCommands.ListenForCommands(client, operator);
 
         client.getEventDispatcher().on(MessageCreateEvent.class)
                 .map(MessageCreateEvent::getMessage)
@@ -64,40 +64,6 @@ public class Bambi {
                     }
                 });
 
-//        client.getEventDispatcher().on(MessageCreateEvent.class)
-//                .subscribe(event -> {
-//                    Message message = event.getMessage();
-//                    if(message.getContent().equalsIgnoreCase("!me")) {
-//                        MessageChannel channel = message.getChannel().block();
-//                        channel.createMessage(message.getAuthor().map(User::getUsername).get()).block();
-//
-//                });
-
-
-        client.getEventDispatcher().on(MessageCreateEvent.class)
-                .subscribe(event -> {
-                    Message message = event.getMessage();
-                    if(message.getContent().contains("!addMovie")) {
-                        String[] string = message.getContent().split("!addMovie");
-                        strings.add(string[1].trim());
-                    }
-                });
-
-        client.getEventDispatcher().on(MessageCreateEvent.class)
-                .subscribe(event -> {
-                    Message message = event.getMessage();
-                    if(message.getContent().contains("!removeMovie")) {
-                        String[] string = message.getContent().split("!removeMovie");
-
-                        for(String movie : strings) {
-                            if(movie.toLowerCase().contains(string[1].trim().toLowerCase())) {
-                                strings.remove(movie);
-                            }
-                        }
-
-                        message.getChannel().block().createMessage("Movie Removed").block();
-                    }
-                });
 
         client.getEventDispatcher().on(MessageCreateEvent.class)
                 .subscribe(event -> {
