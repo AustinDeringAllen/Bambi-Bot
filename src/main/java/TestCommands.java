@@ -23,5 +23,14 @@ public class TestCommands {
                         channel.createMessage(message.getAuthor().map(User::getAvatarUrl).get()).block();
                     }
                 });
+
+        client.getEventDispatcher().on(MessageCreateEvent.class)
+                .subscribe(event -> {
+                    Message message = event.getMessage();
+                    if(message.getContent().equalsIgnoreCase("!name")) {
+                        MessageChannel channel = message.getChannel().block();
+                        channel.createMessage(message.getAuthor().map(User::getUsername).get()).block();
+                    }
+                });
     }
 }
