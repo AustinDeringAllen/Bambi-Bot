@@ -76,51 +76,12 @@ public class Bambi {
                     }
                 });
 
-//        client.getEventDispatcher().on(MessageCreateEvent.class)
-//                .subscribe(event -> {
-//                    Message message = event.getMessage();
-//                    if(message.getContent().equalsIgnoreCase("!join")) {
-//                        Member member = event.getMember().orElse(null);
-//                        if(member != null) {
-//                            VoiceState voiceState = member.getVoiceState().block();
-//                            if(voiceState != null) {
-//                                VoiceChannel channel = voiceState.getChannel().block();
-//                                if(channel != null) {
-//                                    channel.join(spec -> spec.setProvider(provider)).block();
-//                                }
-//                            }
-//                        }
-//                    }
-//                });
-
         client.getEventDispatcher().on(MessageUpdateEvent.class)
                 .subscribe(event -> {
                     Mono<Message> message =  event.getMessage();
                     Message message1 = message.block();
                     MessageChannel channel = message1.getChannel().block();
                     channel.createMessage("DYLAN").block();
-                });
-
-        client.getEventDispatcher().on(ReactionAddEvent.class)
-                .subscribe(event -> {
-                    Message message = event.getMessage().block();
-                    Set<Reaction> reactions = message.getReactions();
-
-                    for(Reaction reaction : reactions) {
-                        if(reaction.getEmoji().equals(ReactionEmoji.unicode("✅"))) {
-//                            message.addReaction(ReactionEmoji.unicode("0️⃣")).block();
-                            message.addReaction(ReactionEmoji.unicode("1️⃣")).block();
-                            message.addReaction(ReactionEmoji.unicode("2️⃣")).block();
-                            message.addReaction(ReactionEmoji.unicode("3️⃣")).block();
-                            message.addReaction(ReactionEmoji.unicode("4️⃣")).block();
-                            message.addReaction(ReactionEmoji.unicode("5️⃣")).block();
-                            message.addReaction(ReactionEmoji.unicode("6️⃣")).block();
-                            message.addReaction(ReactionEmoji.unicode("7️⃣")).block();
-                            message.addReaction(ReactionEmoji.unicode("8️⃣")).block();
-                            message.addReaction(ReactionEmoji.unicode("9️⃣")).block();
-                            message.addReaction(ReactionEmoji.unicode("\uD83D\uDD1F")).block();
-                        }
-                    }
                 });
 
         client.onDisconnect().block();
