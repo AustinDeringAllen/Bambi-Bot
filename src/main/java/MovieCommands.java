@@ -46,7 +46,7 @@ public class MovieCommands {
                         for(String movie : strings) {
                             movieList += movie + "\n";
                         }
-                        channel.createMessage(movie).block();
+                        channel.createMessage(movieList).block();
                     }
                 });
 

@@ -38,9 +38,31 @@ public class CurrencyCommands {
         client.getEventDispatcher().on(MessageCreateEvent.class)
                 .subscribe(event -> {
                     Message message = event.getMessage();
+                    MessageChannel channel = message.getChannel().block();
                     if(message.getContent().contains("!pay")) {
                         String[] userInput = message.toString().split(" ");
                         String username = message.getAuthor().map(User::getUsername).get();
+                        String recipient = "";
+                        long amount = Long.parseLong(userInput[userInput.length-1]);
+                        for(int i=1; i<userInput.length-1; i++) {
+                            recipientName += userInput[i];
+                        }
+
+                        if(currency.containsKey(username)) {
+                            if(currency.containsKey(recipient)) {
+                                if(currency.get(username) - amount < 0) {
+                                    currency.put(username, currency.get(username) - amount);
+                                    currency.put(recipient, currency.get(recipient + amount));
+                                    channel.createMessage("Transaction Complete");
+                                } else {
+                                    channel.createMessage("User trying to send money does not have enough");
+                                }
+                            } else {
+                                channel.createMessage("User to receive send money isn't registered");
+                            }
+                        } else {
+                            channel.createMessage("User trying to send money isn't registered");
+                        }
                     }
                 });
     }
