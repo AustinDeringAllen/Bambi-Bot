@@ -34,5 +34,14 @@ public class CurrencyCommands {
                         }
                     }
                 });
+
+        client.getEventDispatcher().on(MessageCreateEvent.class)
+                .subscribe(event -> {
+                    Message message = event.getMessage();
+                    if(message.getContent().contains("!pay")) {
+                        String[] userInput = message.toString().split(" ");
+                        String username = message.getAuthor().map(User::getUsername).get();
+                    }
+                });
     }
 }

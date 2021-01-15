@@ -1,9 +1,11 @@
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.lifecycle.ReadyEvent;
 import discord4j.core.event.domain.message.MessageCreateEvent;
+import discord4j.core.event.domain.message.MessageUpdateEvent;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.User;
 import discord4j.core.object.entity.channel.MessageChannel;
+import reactor.core.publisher.Mono;
 
 public class TestCommands {
     public static void ListenForCommands(GatewayDiscordClient client, String operator) {
@@ -31,6 +33,23 @@ public class TestCommands {
                         MessageChannel channel = message.getChannel().block();
                         channel.createMessage(message.getAuthor().map(User::getUsername).get()).block();
                     }
+                });
+
+        client.getEventDispatcher().on(MessageCreateEvent.class)
+                .subscribe(event -> {
+                    Message message = event.getMessage();
+                    if(message.getContent().equalsIgnoreCase("!name")) {
+                        MessageChannel channel = message.getChannel().block();
+                        channel.createMessage(String.valueOf(message.getAuthor().map(User::getId).get())).block();
+                    }
+                });
+
+        client.getEventDispatcher().on(MessageUpdateEvent.class)
+                .subscribe(event -> {
+                    Mono<Message> message =  event.getMessage();
+                    Message message1 = message.block();
+                    MessageChannel channel = message1.getChannel().block();
+                    channel.createMessage("DYLAN").block();
                 });
     }
 }

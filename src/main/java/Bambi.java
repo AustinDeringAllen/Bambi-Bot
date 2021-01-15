@@ -38,41 +38,6 @@ public class Bambi {
         MovieCommands.ListenForCommands(client, operator);
         CurrencyCommands.ListenForCommands(client, operator);
 
-        client.getEventDispatcher().on(MessageCreateEvent.class)
-                .map(MessageCreateEvent::getMessage)
-                .filter(message -> message.getAuthor().map(user -> !user.isBot()).orElse(false))
-                .filter(message -> message.getContent().equalsIgnoreCase("!rrr"))
-                .flatMap(Message::getChannel)
-                .subscribe();
-
-
-
-        client.getEventDispatcher().on(MessageCreateEvent.class)
-                .subscribe(event -> {
-                    Message message = event.getMessage();
-                    if(message.getContent().contains("!pay")) {
-                        String[] userInput = message.toString().split(" ");
-                        String username = message.getAuthor().map(User::getUsername).get();
-                    }
-                });
-
-        client.getEventDispatcher().on(MessageCreateEvent.class)
-                .subscribe(event -> {
-                    Message message = event.getMessage();
-                    if(message.getContent().equalsIgnoreCase("!name")) {
-                        MessageChannel channel = message.getChannel().block();
-                        channel.createMessage(String.valueOf(message.getAuthor().map(User::getId).get())).block();
-                    }
-                });
-
-        client.getEventDispatcher().on(MessageUpdateEvent.class)
-                .subscribe(event -> {
-                    Mono<Message> message =  event.getMessage();
-                    Message message1 = message.block();
-                    MessageChannel channel = message1.getChannel().block();
-                    channel.createMessage("DYLAN").block();
-                });
-
         client.onDisconnect().block();
     }
 
