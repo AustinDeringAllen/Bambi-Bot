@@ -17,7 +17,7 @@ import reactor.core.publisher.Mono;
 import java.util.*;
 
 public class Bambi {
-    public static final String operator = "$";
+    public static final String operator = "!!";
     public static int bullets = 6;
     public static final HashMap<String, Long> currency = new HashMap<>();
 
@@ -36,6 +36,7 @@ public class Bambi {
         TestCommands.ListenForCommands(client, operator);
         OtherCommands.ListenForCommands(client, operator);
         MovieCommands.ListenForCommands(client, operator);
+        CurrencyCommands.ListenForCommands(client, operator);
 
         client.getEventDispatcher().on(MessageCreateEvent.class)
                 .map(MessageCreateEvent::getMessage)
@@ -61,18 +62,6 @@ public class Bambi {
                     if(message.getContent().equalsIgnoreCase("!name")) {
                         MessageChannel channel = message.getChannel().block();
                         channel.createMessage(String.valueOf(message.getAuthor().map(User::getId).get())).block();
-                    }
-                });
-
-
-        client.getEventDispatcher().on(MessageCreateEvent.class)
-                .subscribe(event -> {
-                    Message message = event.getMessage();
-                    if(message.getContent().equalsIgnoreCase("!listMovies")) {
-                        MessageChannel channel = message.getChannel().block();
-                        for(String movie : strings) {
-                            channel.createMessage(movie).block();
-                        }
                     }
                 });
 

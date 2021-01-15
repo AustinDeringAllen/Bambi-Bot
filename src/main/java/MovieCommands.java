@@ -2,6 +2,7 @@ import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.event.domain.message.ReactionAddEvent;
 import discord4j.core.object.entity.Message;
+import discord4j.core.object.entity.channel.MessageChannel;
 import discord4j.core.object.reaction.Reaction;
 import discord4j.core.object.reaction.ReactionEmoji;
 
@@ -33,6 +34,19 @@ public class MovieCommands {
                         }
 
                         message.getChannel().block().createMessage("Movie Removed").block();
+                    }
+                });
+
+        client.getEventDispatcher().on(MessageCreateEvent.class)
+                .subscribe(event -> {
+                    Message message = event.getMessage();
+                    if(message.getContent().equalsIgnoreCase("!listMovies")) {
+                        MessageChannel channel = message.getChannel().block();
+                        String movieList = "";
+                        for(String movie : strings) {
+                            movieList += movie + "\n";
+                        }
+                        channel.createMessage(movie).block();
                     }
                 });
 
