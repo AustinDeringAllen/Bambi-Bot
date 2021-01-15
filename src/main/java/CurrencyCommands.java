@@ -66,4 +66,37 @@ public class CurrencyCommands {
                     }
                 });
     }
+
+    public static int checkForErrors(String username, String recipient, long amount) {
+        if(!currency.containsKey(username)) {
+            return 1;
+        }
+
+        if(!currency.containsKey(recipient))
+            return 2;
+
+        if(currency.get(username) - amount < 0)
+            return 3;
+
+        return 0;
+    };
+
+    public static boolean returnErrorMessage(int errorNumber, MessageChannel channel) {
+        switch (errorNumber) {
+            case 1:
+                channel.createMessage("User trying to send money isn't registered");
+                return false;
+
+            case 2:
+                channel.createMessage("User to receive send money isn't registered");
+                return false;
+
+            case 3:
+                channel.createMessage("User trying to send money doesn't have enough");
+                return false;
+
+            default:
+                return true;
+        }
+    }
 }
