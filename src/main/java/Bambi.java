@@ -18,8 +18,6 @@ import java.util.*;
 
 public class Bambi {
     public static final String operator = "!!";
-    public static int bullets = 6;
-    public static final HashMap<String, Long> currency = new HashMap<>();
 
     public static void main(String[] args) {
         GatewayDiscordClient client = DiscordClientBuilder.create(DiscordKey.getKey())
