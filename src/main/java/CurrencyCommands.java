@@ -45,7 +45,7 @@ public class CurrencyCommands {
                         String recipient = "";
                         long amount = Long.parseLong(userInput[userInput.length-1]);
                         for(int i=1; i<userInput.length-1; i++) {
-                            recipientName += userInput[i];
+                            recipient += userInput[i];
                         }
 
                         if(currency.containsKey(username)) {
