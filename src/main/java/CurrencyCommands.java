@@ -1,3 +1,4 @@
+import discord4j.common.util.Snowflake;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
@@ -9,6 +10,7 @@ import java.util.Random;
 
 public class CurrencyCommands {
     public static final HashMap<String, Long> currency = new HashMap<>();
+    public static final HashMap<Snowflake, Long> testCurrency = new HashMap<>();
 
     public static void ListenForCommands(GatewayDiscordClient client, String operator) {
         client.getEventDispatcher().on(MessageCreateEvent.class)
@@ -16,8 +18,11 @@ public class CurrencyCommands {
                     Message message = event.getMessage();
                     if(message.getContent().equalsIgnoreCase("!register")) {
                         String username = message.getAuthor().map(User::getUsername).get();
-                        if(!currency.containsKey(username))
+                        Snowflake userId = message.getAuthor().map(User::getId).get();
+                        if(!currency.containsKey(username)) {
                             currency.put(username, 1000L);
+                            testCurrency.put(userId, 1000L);
+                        }
                     }
                 });
 
