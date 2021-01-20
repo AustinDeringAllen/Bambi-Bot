@@ -1,9 +1,11 @@
+import discord4j.common.util.Snowflake;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.lifecycle.ReadyEvent;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.event.domain.message.MessageUpdateEvent;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.User;
+import discord4j.core.object.entity.channel.Channel;
 import discord4j.core.object.entity.channel.MessageChannel;
 import reactor.core.publisher.Mono;
 
@@ -20,9 +22,18 @@ public class TestCommands {
         client.getEventDispatcher().on(MessageCreateEvent.class)
                 .subscribe(event -> {
                    Message message = event.getMessage();
-                   if(message.getContent().equalsIgnoreCase(operator + "test")) {
-                       String[] strings = message.toString().split(" ");
-                       System.out.println(strings[1]);
+                   if(message.getContent().contains(operator + "test")) {
+                       String[] strings = message.getContent().split(" ");
+                       MessageChannel channel = message.getChannel().block();
+                       Snowflake userId = message.getAuthor().map(User::getId).get();
+                       String string = message.getContent();
+//                       System.out.println(strings[1]);
+                       System.out.println(userId);
+
+                       for(int i=0; i<strings.length; i++) {
+                           System.out.println(strings[i]);
+                       }
+//                       channel.createMessage(string).block();
                    }
                 });
 
