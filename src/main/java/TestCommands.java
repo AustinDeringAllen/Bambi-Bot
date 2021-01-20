@@ -19,6 +19,15 @@ public class TestCommands {
 
         client.getEventDispatcher().on(MessageCreateEvent.class)
                 .subscribe(event -> {
+                   Message message = event.getMessage();
+                   if(message.getContent().equalsIgnoreCase(operator + "test")) {
+                       String[] strings = message.toString().split(" ");
+                       System.out.println(strings[1]);
+                   }
+                });
+
+        client.getEventDispatcher().on(MessageCreateEvent.class)
+                .subscribe(event -> {
                     Message message = event.getMessage();
                     if(message.getContent().equalsIgnoreCase("$me")) {
                         MessageChannel channel = message.getChannel().block();
