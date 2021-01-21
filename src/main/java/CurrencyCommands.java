@@ -51,24 +51,28 @@ public class CurrencyCommands {
                    MessageChannel channel = message.getChannel().block();
                    if(message.getContent().contains(operator + "pay")) {
                        String[] userInput = message.getContent().split(" ");
-                       Long userId = message.getAuthor().map(User::getId).get().asLong();
-                       Long recipientId = Long.parseLong(userInput[1].substring(3,userInput[1].length()-1));
-                       Long amount = Long.parseLong(userInput[2]);
+                       if(userInput.length == 3) {
+                           Long userId = message.getAuthor().map(User::getId).get().asLong();
+                           Long recipientId = Long.parseLong(userInput[1].substring(3,userInput[1].length()-1));
+                           Long amount = Long.parseLong(userInput[2]);
 
-                       if(currency.containsKey(userId)) {
-                           if(currency.containsKey(recipientId)) {
-                               if(currency.get(userId) - amount >= 0) {
-                                   currency.put(userId, currency.get(userId) - amount);
-                                   currency.put(recipientId, currency.get(recipientId - amount));
-                                   channel.createMessage("Transaction complete");
+                           if(currency.containsKey(userId)) {
+                               if(currency.containsKey(recipientId)) {
+                                   if(currency.get(userId) - amount >= 0) {
+                                       currency.put(userId, currency.get(userId) - amount);
+                                       currency.put(recipientId, currency.get(recipientId) + amount);
+                                       channel.createMessage("Transaction complete").block();
+                                   } else {
+                                       channel.createMessage("Transaction failed").block();
+                                   }
                                } else {
-
+                                   channel.createMessage("Recipient doesn't exist in database").block();
                                }
                            } else {
-                               System.out.println("Recipient doesn't exist in database");
+                               channel.createMessage("User doesn't exist in database").block();
                            }
                        } else {
-                           System.out.println("User doesn't exist in database");
+                           channel.createMessage("Invalid format. Please try again").block();
                        }
                    }
                 });
