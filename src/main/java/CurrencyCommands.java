@@ -57,7 +57,11 @@ public class CurrencyCommands {
 
                        if(currency.containsKey(userId)) {
                            if(currency.containsKey(recipientId)) {
+                               if(currency.get(userId) - amount >= 0) {
 
+                               } else {
+
+                               }
                            } else {
                                System.out.println("Recipient doesn't exist in database");
                            }
