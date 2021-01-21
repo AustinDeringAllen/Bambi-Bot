@@ -58,7 +58,9 @@ public class CurrencyCommands {
                        if(currency.containsKey(userId)) {
                            if(currency.containsKey(recipientId)) {
                                if(currency.get(userId) - amount >= 0) {
-
+                                   currency.put(userId, currency.get(userId) - amount);
+                                   currency.put(recipientId, currency.get(recipientId - amount));
+                                   channel.createMessage("Transaction complete");
                                } else {
 
                                }
