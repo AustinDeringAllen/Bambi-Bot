@@ -1,6 +1,8 @@
 import discord4j.common.util.Snowflake;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.message.MessageCreateEvent;
+import discord4j.core.object.entity.Guild;
+import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.User;
 import discord4j.core.object.entity.channel.MessageChannel;
@@ -79,15 +81,19 @@ public class CurrencyCommands {
         client.getEventDispatcher().on(MessageCreateEvent.class)
                 .subscribe(event -> {
                     Message message = event.getMessage();
+                    Guild guild = message.getGuild().block();
                     if(message.getContent().contains(operator + "buy")) {
                         String[] userInput = message.getContent().split(" ");
 
                         if(userInput[1].equalsIgnoreCase("name")) {
                             Long recipientId = Long.parseLong(userInput[2].substring(3,userInput[1].length()-1));
+                            Snowflake recipient = Snowflake.of(recipientId);
+
                             String newName = "";
                             for(int i=3; i<userInput.length; i++) {
                                 newName += userInput[i] + " ";
                             }
+                            guild.getMemberById(recipient);
                             newName.trim();
                         }
                     }
