@@ -80,8 +80,21 @@ public class CurrencyCommands {
                 .subscribe(event -> {
                     Message message = event.getMessage();
                     if(message.getContent().contains(operator + "buy")) {
+                        String[] userInput = message.getContent().split(" ");
 
+                        if(userInput[1].equalsIgnoreCase("name")) {
+                            Long recipientId = Long.parseLong(userInput[2].substring(3,userInput[1].length()-1));
+                            String newName = "";
+                            for(int i=3; i<userInput.length; i++) {
+                                newName += userInput[i] + " ";
+                            }
+                            newName.trim();
+                        }
                     }
                 });
+    }
+
+    public static void buyCommand() {
+
     }
 }
