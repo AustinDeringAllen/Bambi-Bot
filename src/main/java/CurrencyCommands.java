@@ -12,7 +12,6 @@ import java.util.Set;
 
 public class CurrencyCommands {
     public static final HashMap<Long, Long> currency = new HashMap<>();
-    public static final HashMap<Snowflake, Long> testCurrency = new HashMap<>();
 
     public static void ListenForCommands(GatewayDiscordClient client, String operator) {
         client.getEventDispatcher().on(MessageCreateEvent.class)
@@ -75,6 +74,14 @@ public class CurrencyCommands {
                            channel.createMessage("Invalid format. Please try again").block();
                        }
                    }
+                });
+
+        client.getEventDispatcher().on(MessageCreateEvent.class)
+                .subscribe(event -> {
+                    Message message = event.getMessage();
+                    if(message.getContent().contains(operator + "buy")) {
+
+                    }
                 });
     }
 }
