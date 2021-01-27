@@ -39,8 +39,11 @@ public class OtherCommands {
         client.getEventDispatcher().on(MessageCreateEvent.class)
                 .subscribe(event -> {
                     Message message = event.getMessage();
+                    MessageChannel channel = message.getChannel().block();
                     if(message.getContent().equalsIgnoreCase(operator + "roll")) {
-
+                        Random random = new Random();
+                        int randNum = random.nextInt(6) + 1;
+                        System.out.println(randNum);
                     }
                 });
     }
