@@ -40,9 +40,11 @@ public class OtherCommands {
                 .subscribe(event -> {
                     Message message = event.getMessage();
                     MessageChannel channel = message.getChannel().block();
-                    if(message.getContent().equalsIgnoreCase(operator + "roll")) {
+                    if(message.getContent().contains(operator + "roll " + "d")) {
+                        String[] string = message.getContent().split("d");
+                        int number = Integer.parseInt(string[1]);
                         Random random = new Random();
-                        int randNum = random.nextInt(6) + 1;
+                        int randNum = random.nextInt(number) + 1;
                         System.out.println(randNum);
                     }
                 });
