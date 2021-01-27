@@ -93,7 +93,7 @@ public class CurrencyCommands {
                             for(int i=3; i<userInput.length; i++) {
                                 newName += userInput[i] + " ";
                             }
-                            guild.getMemberById(recipient);
+                            Member member = guild.getMemberById(recipient).block();
                             newName.trim();
                         }
                     }

@@ -35,5 +35,13 @@ public class OtherCommands {
                         }
                     }
                 });
+
+        client.getEventDispatcher().on(MessageCreateEvent.class)
+                .subscribe(event -> {
+                    Message message = event.getMessage();
+                    if(message.getContent().equalsIgnoreCase(operator + "roll")) {
+
+                    }
+                });
     }
 }
