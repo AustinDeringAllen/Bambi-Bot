@@ -59,6 +59,50 @@ public class OtherCommands {
                         Random random = new Random();
                         int cardNum = random.nextInt(13) + 1;
                         int suitNum = random.nextInt(4) + 1;
+
+                        switch(cardNum) {
+                            case 1:
+                                card = "Ace";
+                                break;
+                            case 2:
+                                card = "Two";
+                                break;
+                            case 3:
+                                card = "Three";
+                                break;
+                            case 4:
+                                card = "Four";
+                                break;
+                            case 5:
+                                card = "Five";
+                                break;
+                            case 6:
+                                card = "Six";
+                                break;
+                            case 7:
+                                card = "Seven";
+                                break;
+                            case 8:
+                                card = "Eight";
+                                break;
+                            case 9:
+                                card = "Nine";
+                                break;
+                            case 10:
+                                card = "Ten";
+                                break;
+                            case 11:
+                                card = "Jack";
+                                break;
+                            case 12:
+                                card = "Queen";
+                                break;
+                            case 13:
+                                card = "King";
+                                break;
+                            default:
+                                throw new IllegalStateException("Unexpected value: " + cardNum);
+                        }
                     }
                 });
     }
