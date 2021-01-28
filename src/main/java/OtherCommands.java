@@ -48,5 +48,18 @@ public class OtherCommands {
                         System.out.println(randNum);
                     }
                 });
+
+        client.getEventDispatcher().on(MessageCreateEvent.class)
+                .subscribe(event -> {
+                    Message message = event.getMessage();
+                    MessageChannel channel = message.getChannel().block();
+                    if(message.getContent().equalsIgnoreCase(operator + "draw")) {
+                        String card;
+                        String suit;
+                        Random random = new Random();
+                        int cardNum = random.nextInt(13) + 1;
+                        int suitNum = random.nextInt(4) + 1;
+                    }
+                });
     }
 }
