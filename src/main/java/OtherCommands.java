@@ -103,6 +103,25 @@ public class OtherCommands {
                             default:
                                 throw new IllegalStateException("Unexpected value: " + cardNum);
                         }
+
+                        switch(suitNum) {
+                            case 1:
+                                suit = "clubs";
+                                break;
+                            case 2:
+                                suit = "diamonds";
+                                break;
+                            case 3:
+                                suit = "hearts";
+                                break;
+                            case 4:
+                                suit = "spades";
+                                break;
+                            default:
+                                throw new IllegalStateException("Unexpected value: " + suitNum);
+                        }
+
+                        System.out.println("You drew the " + card + " of " + suit);
                     }
                 });
     }
