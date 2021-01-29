@@ -131,7 +131,11 @@ public class OtherCommands {
                     MessageChannel channel = message.getChannel().block();
 
                     if(message.getContent().equalsIgnoreCase(operator + "letter")) {
+                        char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+                        Random random = new Random();
+                        int number = random.nextInt(alphabet.length);
 
+                        System.out.println(alphabet[number]);
                     }
                 });
     }
