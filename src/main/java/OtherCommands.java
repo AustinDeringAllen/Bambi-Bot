@@ -127,7 +127,12 @@ public class OtherCommands {
 
         client.getEventDispatcher().on(MessageCreateEvent.class)
                 .subscribe(event -> {
+                    Message message = event.getMessage();
+                    MessageChannel channel = message.getChannel().block();
 
+                    if(message.getContent().equalsIgnoreCase(operator + "letter")) {
+
+                    }
                 });
     }
 }
