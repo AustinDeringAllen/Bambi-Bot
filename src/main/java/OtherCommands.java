@@ -124,5 +124,10 @@ public class OtherCommands {
                         System.out.println("You drew the " + card + " of " + suit);
                     }
                 });
+
+        client.getEventDispatcher().on(MessageCreateEvent.class)
+                .subscribe(event -> {
+
+                });
     }
 }
