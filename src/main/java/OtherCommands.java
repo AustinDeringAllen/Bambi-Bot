@@ -136,6 +136,7 @@ public class OtherCommands {
                         int number = random.nextInt(alphabet.length);
 
                         System.out.println(alphabet[number]);
+                        channel.createMessage("The letter you pulled is the letter " + alphabet[number]);
                     }
                 });
     }
